@@ -6,6 +6,17 @@ package JFrames;
 
 import IJFrames.IFrameagregar;
 import IJFrames.IFramesreportes;
+import IJFrames.IJFramebarberos;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+import objetos.infoconexion;
 
 /**
  *
@@ -14,6 +25,9 @@ import IJFrames.IFramesreportes;
 public class JFrameprincipal extends javax.swing.JFrame {
     // VARIABLE INICIAL
     int idrole;
+    String nuser;
+    infoconexion conexion = new infoconexion();
+    public static javax.swing.JLabel etiqueta;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JFrameprincipal.class.getName());
 
@@ -23,16 +37,40 @@ public class JFrameprincipal extends javax.swing.JFrame {
     public JFrameprincipal() {
         //COMPONENTES INICIALES
         initComponents();
+        etiqueta = lblcuenta;
         //POCICION CENTRADA
         setLocationRelativeTo(null);
+        //comprobar id
+ 
+    }
+    public void actualizarCuenta() {
+        try (Connection con = DriverManager.getConnection(
+                conexion.getUrl(), conexion.getUser(), conexion.getPassword());
+            CallableStatement cs = con.prepareCall("{call sumacantidad()}");
+            ResultSet rs = cs.executeQuery()) {
+
+            if (rs.next()) {
+                String valor = rs.getString(1);
+                lblcuenta.setText(valor == null ? "0" : valor);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.toString());
+        }
     }
 
-    public JFrameprincipal(int idrole) {
-        //VARIABLE INICIALIZADA Y CONSTRUIDAD
+      public JFrameprincipal(int idrole, String nuser) {
         initComponents();
+        etiqueta = lblcuenta;            
+        setLocationRelativeTo(null);
         this.idrole = idrole;
+        this.nuser = nuser;
+        lbluser.setText(nuser);
+        comprobar_idrole();
+        actualizarCuenta();             
     }
-    
+    public void comprobar_idrole(){
+        mchagregarclientes.setEnabled(idrole == 1);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,24 +82,58 @@ public class JFrameprincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         DesktopPanel = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
+        lbluser = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblcuenta = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mccerrarsesion = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
-        mchagregar = new javax.swing.JCheckBoxMenuItem();
+        mncbarberos = new javax.swing.JMenu();
+        mchagregarclientes = new javax.swing.JCheckBoxMenuItem();
+        mcverreportes = new javax.swing.JCheckBoxMenuItem();
+        mchverbarberos = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("USER:");
+
+        lbluser.setText("jLabel2");
+
+        jLabel2.setText("CUENTA:");
+
+        lblcuenta.setText("jLabel3");
+
+        DesktopPanel.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        DesktopPanel.setLayer(lbluser, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        DesktopPanel.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        DesktopPanel.setLayer(lblcuenta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopPanelLayout = new javax.swing.GroupLayout(DesktopPanel);
         DesktopPanel.setLayout(DesktopPanelLayout);
         DesktopPanelLayout.setHorizontalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1130, Short.MAX_VALUE)
+            .addGroup(DesktopPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(lbluser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 786, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(lblcuenta)
+                .addGap(149, 149, 149))
         );
         DesktopPanelLayout.setVerticalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesktopPanelLayout.createSequentialGroup()
+                .addContainerGap(630, Short.MAX_VALUE)
+                .addGroup(DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lbluser)
+                    .addComponent(jLabel2)
+                    .addComponent(lblcuenta))
+                .addContainerGap())
         );
 
         mccerrarsesion.setText("Sesion");
@@ -73,19 +145,24 @@ public class JFrameprincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(mccerrarsesion);
 
-        jMenu2.setText("Listado");
+        mncbarberos.setText("Listado");
 
-        jCheckBoxMenuItem2.setSelected(true);
-        jCheckBoxMenuItem2.setText("Agregar clientes");
-        jCheckBoxMenuItem2.addActionListener(this::jCheckBoxMenuItem2ActionPerformed);
-        jMenu2.add(jCheckBoxMenuItem2);
+        mchagregarclientes.setSelected(true);
+        mchagregarclientes.setText("Agregar clientes");
+        mchagregarclientes.addActionListener(this::mchagregarclientesActionPerformed);
+        mncbarberos.add(mchagregarclientes);
 
-        mchagregar.setSelected(true);
-        mchagregar.setText("Ver reportes");
-        mchagregar.addActionListener(this::mchagregarActionPerformed);
-        jMenu2.add(mchagregar);
+        mcverreportes.setSelected(true);
+        mcverreportes.setText("Ver reportes");
+        mcverreportes.addActionListener(this::mcverreportesActionPerformed);
+        mncbarberos.add(mcverreportes);
 
-        jMenuBar1.add(jMenu2);
+        mchverbarberos.setSelected(true);
+        mchverbarberos.setText("Ver barberos");
+        mchverbarberos.addActionListener(this::mchverbarberosActionPerformed);
+        mncbarberos.add(mchverbarberos);
+
+        jMenuBar1.add(mncbarberos);
 
         setJMenuBar(jMenuBar1);
 
@@ -97,18 +174,18 @@ public class JFrameprincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DesktopPanel)
+            .addComponent(DesktopPanel, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     //MENU ACTION BOTON AGREGA EL INTERNALFRAME AGREGAR AL DESKTOPPANEL Y LO MUESTRA
-    private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
+    private void mchagregarclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mchagregarclientesActionPerformed
         // TODO add your handling code here:
-        IFrameagregar agregar = new IFrameagregar();
+        IFrameagregar agregar = new IFrameagregar(this);
         DesktopPanel.add(agregar);
         agregar.show();
-    }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
+    }//GEN-LAST:event_mchagregarclientesActionPerformed
     //MENU ACTION BOTON CERRAR SESION Y MUESTRA EL LOGIN INICIAL
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
         idrole=0;
@@ -117,12 +194,18 @@ public class JFrameprincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
-    private void mchagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mchagregarActionPerformed
+    private void mcverreportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mcverreportesActionPerformed
         // TODO add your handling code here:
         IFramesreportes reportes = new IFramesreportes();
         DesktopPanel.add(reportes);
         reportes.show();
-    }//GEN-LAST:event_mchagregarActionPerformed
+    }//GEN-LAST:event_mcverreportesActionPerformed
+
+    private void mchverbarberosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mchverbarberosActionPerformed
+        IJFramebarberos b = new IJFramebarberos();
+        DesktopPanel.add(b);
+        b.show();   
+    }//GEN-LAST:event_mchverbarberosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,16 +229,21 @@ public class JFrameprincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new JFrameprincipal(0).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new JFrameprincipal(0,null).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DesktopPanel;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
-    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel lblcuenta;
+    private javax.swing.JLabel lbluser;
     private javax.swing.JMenu mccerrarsesion;
-    private javax.swing.JCheckBoxMenuItem mchagregar;
+    private javax.swing.JCheckBoxMenuItem mchagregarclientes;
+    private javax.swing.JCheckBoxMenuItem mchverbarberos;
+    private javax.swing.JCheckBoxMenuItem mcverreportes;
+    private javax.swing.JMenu mncbarberos;
     // End of variables declaration//GEN-END:variables
 }

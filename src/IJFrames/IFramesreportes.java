@@ -27,7 +27,7 @@ public class IFramesreportes extends javax.swing.JInternalFrame {
         initComponents();
         conexion = new infoconexion();
         llenarnombrestabla();
-        
+
     }
      public void llenarnombrestabla()
     {
@@ -55,8 +55,9 @@ public class IFramesreportes extends javax.swing.JInternalFrame {
                 int TURNO = rs2.getInt("TURNO");
                 String BARBERO = rs2.getString("BARBERO");
                 String FECHA = rs2.getString("FECHAS");
-
-                modelo.addRow(new Object[]{ID, NOMBRE, TURNO, BARBERO, FECHA});
+                int PRECIO = rs2.getInt("PRECIO");
+ 
+                modelo.addRow(new Object[]{ID, NOMBRE, TURNO, BARBERO, FECHA,PRECIO});
             }
             
             tblregistros.setModel(modelo);

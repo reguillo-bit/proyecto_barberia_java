@@ -20,6 +20,7 @@ public class JFrmlogin extends javax.swing.JFrame {
     String contraseña;
     //LISTA DE ADMINISTRADORES
     public ArrayList<admin> admins;
+    String nuser;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JFrmlogin.class.getName());
 
@@ -93,10 +94,10 @@ public class JFrmlogin extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(152, 152, 152)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtuser, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtcontraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btminiciar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtuser)
+                            .addComponent(txtcontraseña)
+                            .addComponent(btminiciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(158, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -130,12 +131,13 @@ public class JFrmlogin extends javax.swing.JFrame {
                 {   
                     idrole = ad.getIdrole();
                     comfiruser = true;
+                    nuser = ad.getUser();
                 }
             }
             if(comfiruser)
             {
                 //CREAR LA SIGIENTE VENTANA PARA ENVIARLE UN DATO
-                JFrameprincipal fprincipal = new JFrameprincipal(idrole);
+                JFrameprincipal fprincipal = new JFrameprincipal(idrole,nuser);
                 //MOSTRAR VENTAA PRINCIPAL Y CERRAR LOGIN
                 fprincipal.setVisible(true);
                 this.dispose();
