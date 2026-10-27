@@ -35,6 +35,7 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
      */
     public IFrameagregar(JFrameprincipal principal) {
         initComponents();
+        this.setTitle("agregar clientes");
         conexion = new infoconexion();
         this.principal = principal;
         llenarcombo();
@@ -92,11 +93,11 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
         if(!txtnombre.getText().isEmpty() || !txtedad.getText().isEmpty() 
                 || !txtservicio.getText().isEmpty() || !txtprecio.getText().isEmpty())
         {
-            capturardatos();
+            //capturardatos();
             try(Connection con = DriverManager.getConnection(conexion.getUrl(),conexion.getUser(),conexion.getPassword()))
             {
                 
-                
+                capturardatos();
                 if(nombre.equals(txtnombre.getText()) && edad == Integer.valueOf(txtedad.getText()) || costo == Integer.valueOf(txtprecio.getText()))
                 {
                     
@@ -110,11 +111,11 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                         pstm.setInt(2, u.getEdad());
                         pstm.executeQuery();
 
-                        // 2. insertar barbero
+                        
 
                         // 3. ahora sí, pedir los IDs (ya existen)
                         Statement stm = con.createStatement();
-                        ResultSet rs1 = stm.executeQuery("call maxids()");
+                        ResultSet rs1 = stm.executeQuery("call maxid()");
                         rs1.next();
                         int idCliente = rs1.getInt(1);
 
@@ -225,15 +226,15 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtservicio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btmguardar))
+                                .addComponent(txtservicio, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(93, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(cmbbarbero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btmguardar)
+                        .addGap(62, 62, 62))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

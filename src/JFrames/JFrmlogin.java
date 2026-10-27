@@ -4,9 +4,17 @@
  */
 package JFrames;
 import JFrames.JFrameprincipal;
+import com.mysql.cj.protocol.Resultset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import objetos.admin;
+import objetos.infoconexion;
 
 /**
  *
@@ -21,6 +29,7 @@ public class JFrmlogin extends javax.swing.JFrame {
     //LISTA DE ADMINISTRADORES
     public ArrayList<admin> admins;
     String nuser;
+    infoconexion conexion;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(JFrmlogin.class.getName());
 
@@ -31,20 +40,17 @@ public class JFrmlogin extends javax.swing.JFrame {
     public JFrmlogin() {
         //COMPONENTES INICIADOS Y CENTRADOS
         initComponents();
+        this.setTitle("Login");
+        conexion = new infoconexion();
         setLocationRelativeTo(null);
         txtcontraseña.setText("");
         txtcontraseña.setColumns(8);
         txtuser.setText("");
         txtuser.setColumns(8);
-        datosiniciales();
+        
     }
     //METODO CON LOS PERFILES DE ADMINISTRACION
-    public void datosiniciales()
-    {
-        admins = new ArrayList();
-        admins.add(new admin(1,"CREGUILLO","1234"));
-        admins.add(new admin(2,"MCAICEDO","1234"));
-    }
+   
     //METODO PARA CAPTURAR LOS DATOS DE USUARIOS
     public void capturardatos()
     {
@@ -122,34 +128,48 @@ public class JFrmlogin extends javax.swing.JFrame {
     private void btminiciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btminiciarActionPerformed
         // TODO add your handling code here:
         // POSIBLE USO DE MANEJO DE ERRORES CON TRY CATCH
-        capturardatos();
-        if(!String.valueOf(txtcontraseña.getPassword()).isEmpty() && !txtuser.getText().isEmpty())
-        {
-            for(admin ad: admins)
+        try(Connection con = DriverManager.getConnection(conexion.getUrl(),conexion.getUser(),conexion.getPassword())){
+            capturardatos();
+            if(!String.valueOf(txtcontraseña.getPassword()).isEmpty() && !txtuser.getText().isEmpty())
             {
-                if(ad.getUser().equals(user) && ad.getPassword().equals(contraseña))
-                {   
-                    idrole = ad.getIdrole();
-                    comfiruser = true;
-                    nuser = ad.getUser();
+                Statement stm = con.createStatement();
+                ResultSet rs =  stm.executeQuery("CALL cuentas()");
+                ResultSetMetaData rstm = rs.getMetaData();
+                
+                while(rs.next())
+                {
+                    String u = rs.getString("USUARIO");
+                    String p = rs.getString("CONTRASEÑA");
+                    
+                            
+                    if(u.equals(user) && p.equals(contraseña))
+                    {   
+                        idrole = rs.getInt("ROLL");
+                        comfiruser = true;
+                        nuser = u;
+                    }
                 }
-            }
-            if(comfiruser)
-            {
-                //CREAR LA SIGIENTE VENTANA PARA ENVIARLE UN DATO
-                JFrameprincipal fprincipal = new JFrameprincipal(idrole,nuser);
-                //MOSTRAR VENTAA PRINCIPAL Y CERRAR LOGIN
-                fprincipal.setVisible(true);
-                this.dispose();
+                if(comfiruser)
+                {
+                    //CREAR LA SIGIENTE VENTANA PARA ENVIARLE UN DATO
+                    JFrameprincipal fprincipal = new JFrameprincipal(idrole,nuser);
+                    //MOSTRAR VENTAA PRINCIPAL Y CERRAR LOGIN
+                    fprincipal.setVisible(true);
+                    this.dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(rootPane, "usuario incorrecto!!");
+                }
             }
             else
             {
-                JOptionPane.showMessageDialog(rootPane, "usuario incorrecto!!");
+                JOptionPane.showMessageDialog(rootPane, "error al ingresar datos");
             }
         }
-        else
+        catch(SQLException e)
         {
-            JOptionPane.showMessageDialog(rootPane, "error al ingresar datos");
+            JOptionPane.showMessageDialog(rootPane, e.toString());
         }
     }//GEN-LAST:event_btminiciarActionPerformed
 
