@@ -5,18 +5,18 @@
             <url>src/IJFrames/IFrameagregar.java</url>
             <bookmark id="1">
                 <name/>
-                <line>28</line>
+                <line>29</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/JFrames/JFrameprincipal.java</file>
             <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/IJFrames/IFrameagregar.java</file>
             <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/JFrames/JFrmlogin.java</file>
-            <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/IJFrames/IFramesreportes.java</file>
             <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/IJFrames/IFramragregarbarbero.java</file>
+            <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/IJFrames/IFramepagosbarberos.java</file>
+            <file>file:/C:/Users/cesar%20antonio/OneDrive/Documentos/NetBeansProjects/Barberia_cbn_project_2.0/src/IJFrames/IFramesreportes.java</file>
         </group>
     </open-files>
 </project-private>

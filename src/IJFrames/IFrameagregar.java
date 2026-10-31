@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
     infoconexion conexion;
     int costo;
     int n = 1;
+    int ids;
     JFrameprincipal principal;
     /**
      * Creates new form NewJInternalFrame
@@ -102,6 +104,7 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                 {
                     
                     usuario u = new usuario(nombre,edad,costo);
+                    double pago = u.getCosto() * 0.40;
                     
                     if(!u.getNombre().isEmpty()){
                         
@@ -122,12 +125,30 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
 
                         // 4. insertar el servicio con los IDs correctos
                         int indice = cmbbarbero.getSelectedIndex();
-                        PreparedStatement pstm2 = con.prepareCall("call agregarservicio(?,?,now(),?,?)");
+                        PreparedStatement pstm2 = con.prepareCall("call agregarservicio(?,?,cuadrate(),?,?)");
                         pstm2.setInt(1, n);
                         pstm2.setInt(2, u.getCosto());
                         pstm2.setInt(3, idCliente);
                         pstm2.setInt(4, indice );
                         pstm2.executeQuery();
+                        
+                        
+                        Statement stm2 = con.createStatement();
+                        ResultSet rs2 = stm2.executeQuery("call maxidservices()");
+                        ResultSetMetaData rstm1 = rs2.getMetaData();
+                        
+                        while(rs2.next())
+                        {
+                            int ids = rs2.getInt("ID");
+                        }
+                        
+                        
+                        PreparedStatement pstm3 = con.prepareCall("call paga(?,?,?);");
+                        pstm3.setDouble(1, pago);
+                        pstm3.setInt(2, indice);
+                        pstm3.setInt(3, ids);
+                        
+                        
 
                         JOptionPane.showMessageDialog(rootPane, "Guardado con exito");
                         n+=1;

@@ -96,6 +96,8 @@ public class JFrameprincipal extends javax.swing.JFrame {
         menuagregar = new javax.swing.JMenu();
         magregarclientes = new javax.swing.JMenuItem();
         magregarbarbero = new javax.swing.JMenuItem();
+        mpagobarberos = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -173,6 +175,14 @@ public class JFrameprincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuagregar);
 
+        mpagobarberos.setText("Pagos");
+
+        jMenuItem1.setText("Barberos");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        mpagobarberos.add(jMenuItem1);
+
+        jMenuBar1.add(mpagobarberos);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -225,6 +235,10 @@ public class JFrameprincipal extends javax.swing.JFrame {
         agregarbarberos.show();
     }//GEN-LAST:event_magregarbarberoActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,6 +269,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblcuenta;
     private javax.swing.JLabel lbluser;
     private javax.swing.JMenuItem magregarbarbero;
@@ -263,6 +278,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mcerrarsecion;
     private javax.swing.JMenu menuagregar;
     private javax.swing.JMenu mncbarberos;
+    private javax.swing.JMenu mpagobarberos;
     private javax.swing.JMenuItem mreportes;
     private javax.swing.JMenuItem mverbarberos;
     // End of variables declaration//GEN-END:variables
