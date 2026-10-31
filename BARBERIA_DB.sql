@@ -109,6 +109,11 @@ create view verbarbero as
 select b.ID_BARBERO AS ID,b.NOMBRE AS NOMBRE,b.EDAD AS EDAD from BARBERO b;
 //
 
+Create procedure acualizarbarbero(id int,nombre varchar(50), edad int)
+begin
+update BARBERO set NOMBRE = nombre, EDAD = edad where  BARBERO.ID_BARBERO = id;
+end//
+
 create procedure paga(pago double,id_barbero int,id_servicio int)
 begin
 insert into PAGOS(PAGO,I_BARBERO,ID_SERVICIO) values(pago,id_barbero,id_servicio);
@@ -122,21 +127,11 @@ on b.ID_BARBERO = p.ID_BARBERO where id = b.ID_BARBERO;
 end
 //
 
+
+
+
 delimiter ;
 
-call nombrestabla();
 
-select*FROM vertabla;
 
-SELECT * FROM CLIENTES;
 
-SELECT * FROM verbarbero;
-
-call sumacantidad();
-
-call maxid();
-
-CALL cuentas();
-
-call  pago_barbero (1); 
-call paga();

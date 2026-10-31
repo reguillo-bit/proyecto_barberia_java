@@ -67,7 +67,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="mpagobarberos">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pagos"/>
+            <Property name="text" type="java.lang.String" value="Actualizar"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">

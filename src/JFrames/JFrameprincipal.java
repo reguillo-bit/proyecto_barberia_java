@@ -4,7 +4,9 @@
  */
 package JFrames;
 
+import IJFrames.IFrameactualizar;
 import IJFrames.IFrameagregar;
+import IJFrames.IFrameactualizar;
 import IJFrames.IFramesreportes;
 import IJFrames.IFramragregarbarbero;
 import IJFrames.IJFramebarberos;
@@ -175,7 +177,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuagregar);
 
-        mpagobarberos.setText("Pagos");
+        mpagobarberos.setText("Actualizar");
 
         jMenuItem1.setText("Barberos");
         jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
@@ -237,6 +239,9 @@ public class JFrameprincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        IFrameactualizar editar = new IFrameactualizar();
+        DesktopPanel.add(editar);
+        editar.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
