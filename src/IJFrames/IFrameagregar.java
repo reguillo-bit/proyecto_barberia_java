@@ -31,6 +31,7 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
     int costo;
     int n = 1;
     int ids;
+    int idCliente;
     JFrameprincipal principal;
     /**
      * Creates new form NewJInternalFrame
@@ -117,17 +118,19 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                         
 
                         // 3. ahora sí, pedir los IDs (ya existen)
-                        Statement stm = con.createStatement();
-                        ResultSet rs1 = stm.executeQuery("call maxid()");
-                        rs1.next();
-                        int idCliente = rs1.getInt(1);
-
-
+                        Statement stm1 = con.createStatement();
+                        ResultSet rs1 = stm1.executeQuery("call maxid()");
+                        if(rs1.next()){
+                            idCliente = rs1.getInt("ID");   // por posicion, no por nombre
+                        }
+                        
+      
                         // 4. insertar el servicio con los IDs correctos
+                        double restarpago = u.getCosto() - pago;
                         int indice = cmbbarbero.getSelectedIndex();
-                        PreparedStatement pstm2 = con.prepareCall("call agregarservicio(?,?,cuadrate(),?,?)");
+                        PreparedStatement pstm2 = con.prepareCall("call agregarservicio(?,?,CURDATE(),?,?)");
                         pstm2.setInt(1, n);
-                        pstm2.setInt(2, u.getCosto());
+                        pstm2.setDouble(2, restarpago);
                         pstm2.setInt(3, idCliente);
                         pstm2.setInt(4, indice );
                         pstm2.executeQuery();
@@ -135,7 +138,7 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                         
                         Statement stm2 = con.createStatement();
                         ResultSet rs2 = stm2.executeQuery("call maxidservices()");
-                        ResultSetMetaData rstm1 = rs2.getMetaData();
+                        ResultSetMetaData rstm2 = rs2.getMetaData();
                         
                         while(rs2.next())
                         {
@@ -149,10 +152,10 @@ public class IFrameagregar extends javax.swing.JInternalFrame {
                         pstm3.setInt(3, ids);
                         
                         
-
+                        principal.actualizarCuenta();
                         JOptionPane.showMessageDialog(rootPane, "Guardado con exito");
                         n+=1;
-                        principal.actualizarCuenta();
+                        
                     }
                     else
                     {

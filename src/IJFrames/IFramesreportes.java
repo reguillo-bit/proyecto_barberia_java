@@ -25,6 +25,7 @@ public class IFramesreportes extends javax.swing.JInternalFrame {
      */
     public IFramesreportes() {
         initComponents();
+        this.setTitle("Reporte clientes");
         conexion = new infoconexion();
         llenarnombrestabla();
 
@@ -41,7 +42,7 @@ public class IFramesreportes extends javax.swing.JInternalFrame {
             ResultSet rs = stm.executeQuery(query);
             
             ResultSetMetaData rsmt = rs.getMetaData();
-            for(int i =1; i<= rsmt.getColumnCount();i++)
+            for(int i =2; i<= rsmt.getColumnCount();i++)
             {
                 modelo.addColumn(rsmt.getColumnLabel(i));
             }
@@ -50,14 +51,14 @@ public class IFramesreportes extends javax.swing.JInternalFrame {
             
             while(rs2.next()) 
             {
-                int ID = rs2.getInt("ID");
+                
                 String NOMBRE = rs2.getString("NOMBRE");
                 int TURNO = rs2.getInt("TURNO");
                 String BARBERO = rs2.getString("BARBERO");
                 String FECHA = rs2.getString("FECHAS");
                 int PRECIO = rs2.getInt("PRECIO");
  
-                modelo.addRow(new Object[]{ID, NOMBRE, TURNO, BARBERO, FECHA,PRECIO});
+                modelo.addRow(new Object[]{NOMBRE, TURNO, BARBERO, FECHA,PRECIO});
             }
             
             tblregistros.setModel(modelo);

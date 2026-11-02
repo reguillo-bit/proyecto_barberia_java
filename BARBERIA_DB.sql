@@ -4,7 +4,7 @@ CREATE DATABASE BARBERIA;
 USE BARBERIA;
 
 CREATE TABLE USERS(
-ID_USER INT auto_increment PRIMARY KEY,
+ID_USER INT auto_increment PRIMARY KEY unique,
 N_USER VARCHAR(50),
 PASS VARCHAR(50),
 ID_ROLE int );
@@ -12,16 +12,25 @@ ID_ROLE int );
 insert into USERS(N_USER,PASS,ID_ROLE) values('CREGUILLO','1234',1);
 insert into USERS(N_USER,PASS,ID_ROLE) values('MCAICEDO','1234',2);
 
+CREATE TABLE LOGIN_LOG(
+    ID_LOG INT AUTO_INCREMENT PRIMARY KEY unique,
+    ID_USER INT NULL,
+    N_USER VARCHAR(50),
+    FECHA_HORA DATETIME DEFAULT CURRENT_TIMESTAMP,
+    EVENTO ENUM('LOGIN','FALLIDO','LOGOUT'),
+    FOREIGN KEY (ID_USER) REFERENCES USERS(ID_USER)
+);
+
 
 CREATE TABLE CLIENTES(
 ID_CLIENTE INT auto_increment primary key,
 NOMBRE VARCHAR(50),
 EDAD INT
 );
-insert into CLIENTES(ID_CLIENTE,NOMBRE,EDAD) values(1,'DON PICHON',5);
+insert into CLIENTES(ID_CLIENTE,NOMBRE,EDAD) values(1,'DON PICHON',67);
 
 CREATE TABLE BARBERO(
-ID_BARBERO INT auto_increment primary key,
+ID_BARBERO INT auto_increment primary key unique,
 NOMBRE VARCHAR(50),
 EDAD int
 );
@@ -50,6 +59,7 @@ ID_BARBERO INT,
 ID_SERVICIO INT,
 FOREIGN KEY(ID_BARBERO) REFERENCES BARBERO(ID_BARBERO),
 FOREIGN KEY(ID_SERVICIO) REFERENCES SERVICIO(ID_SERVICIO) );
+
 insert into PAGOS(ID_PAGO,PAGO,ID_BARBERO,ID_SERVICIO) VALUES(1,8000,1,1);
 
 SET GLOBAL log_bin_trust_function_creators = 1;
@@ -85,12 +95,12 @@ end//
 
 create procedure maxid()
 begin
-select count(c.ID_CLIENTE) from CLIENTES c;
+select count(c.ID_CLIENTE) AS ID from CLIENTES c;
 end//
 
 create procedure maxidservices()
 begin
-select count(s.ID_SERVICIO) from SERVICIO s;
+select count(s.ID_SERVICIO) AS ID from SERVICIO s;
 end//
 
 create view vertabla as
@@ -109,6 +119,10 @@ create view verbarbero as
 select b.ID_BARBERO AS ID,b.NOMBRE AS NOMBRE,b.EDAD AS EDAD from BARBERO b;
 //
 
+
+create view verclientes as
+select c.ID_CLIENTE AS ID, c.NOMBRE AS NOMBRE,c.EDAD AS EDAD from CLIENTES c;
+//
 Create procedure acualizarbarbero(id int,nombre varchar(50), edad int)
 begin
 update BARBERO set NOMBRE = nombre, EDAD = edad where  BARBERO.ID_BARBERO = id;
@@ -128,10 +142,18 @@ end
 //
 
 
-
+create trigger pagoss
+after insert on SERVICIO
+for each row
+begin
+INSERT INTO PAGOS(PAGO, ID_BARBERO, ID_SERVICIO)
+VALUES (ROUND(NEW.PRECIO * 0.40), NEW.ID_BARBERO, NEW.ID_SERVICIO);
+END//
 
 delimiter ;
 
 
+SHOW CREATE TRIGGER pagoss;
 
 
+select * from verclientes;

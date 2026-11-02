@@ -7,6 +7,7 @@ package JFrames;
 import IJFrames.IFrameactualizar;
 import IJFrames.IFrameagregar;
 import IJFrames.IFrameactualizar;
+import IJFrames.IFrameacualizarcliente;
 import IJFrames.IFramesreportes;
 import IJFrames.IFramragregarbarbero;
 import IJFrames.IJFramebarberos;
@@ -44,6 +45,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
         //POCICION CENTRADA
         setLocationRelativeTo(null);
         //comprobar id
+        actualizarCuenta();
  
     }
     public void actualizarCuenta() {
@@ -73,6 +75,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
     }
     public void comprobar_idrole(){
         menuagregar.setEnabled(idrole == 1);
+        mactualizar.setEnabled(idrole == 1);
     }
 
     /**
@@ -98,8 +101,9 @@ public class JFrameprincipal extends javax.swing.JFrame {
         menuagregar = new javax.swing.JMenu();
         magregarclientes = new javax.swing.JMenuItem();
         magregarbarbero = new javax.swing.JMenuItem();
-        mpagobarberos = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mactualizar = new javax.swing.JMenu();
+        mactualiarbarbero = new javax.swing.JMenuItem();
+        mactualizarclientes = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,11 +131,11 @@ public class JFrameprincipal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(lbluser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 786, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 929, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(lblcuenta)
-                .addGap(149, 149, 149))
+                .addContainerGap())
         );
         DesktopPanelLayout.setVerticalGroup(
             DesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,13 +181,17 @@ public class JFrameprincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuagregar);
 
-        mpagobarberos.setText("Actualizar");
+        mactualizar.setText("Actualizar");
 
-        jMenuItem1.setText("Barberos");
-        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
-        mpagobarberos.add(jMenuItem1);
+        mactualiarbarbero.setText("Barberos");
+        mactualiarbarbero.addActionListener(this::mactualiarbarberoActionPerformed);
+        mactualizar.add(mactualiarbarbero);
 
-        jMenuBar1.add(mpagobarberos);
+        mactualizarclientes.setText("Clientes");
+        mactualizarclientes.addActionListener(this::mactualizarclientesActionPerformed);
+        mactualizar.add(mactualizarclientes);
+
+        jMenuBar1.add(mactualizar);
 
         setJMenuBar(jMenuBar1);
 
@@ -237,12 +245,19 @@ public class JFrameprincipal extends javax.swing.JFrame {
         agregarbarberos.show();
     }//GEN-LAST:event_magregarbarberoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mactualiarbarberoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mactualiarbarberoActionPerformed
         // TODO add your handling code here:
         IFrameactualizar editar = new IFrameactualizar();
         DesktopPanel.add(editar);
         editar.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mactualiarbarberoActionPerformed
+
+    private void mactualizarclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mactualizarclientesActionPerformed
+        // TODO add your handling code here:
+        IFrameacualizarcliente actualizarcliente = new IFrameacualizarcliente();
+        DesktopPanel.add(actualizarcliente);
+        actualizarcliente.show();
+    }//GEN-LAST:event_mactualizarclientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,16 +289,17 @@ public class JFrameprincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblcuenta;
     private javax.swing.JLabel lbluser;
+    private javax.swing.JMenuItem mactualiarbarbero;
+    private javax.swing.JMenu mactualizar;
+    private javax.swing.JMenuItem mactualizarclientes;
     private javax.swing.JMenuItem magregarbarbero;
     private javax.swing.JMenuItem magregarclientes;
     private javax.swing.JMenu mccerrarsesion;
     private javax.swing.JMenuItem mcerrarsecion;
     private javax.swing.JMenu menuagregar;
     private javax.swing.JMenu mncbarberos;
-    private javax.swing.JMenu mpagobarberos;
     private javax.swing.JMenuItem mreportes;
     private javax.swing.JMenuItem mverbarberos;
     // End of variables declaration//GEN-END:variables

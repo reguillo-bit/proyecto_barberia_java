@@ -42,17 +42,17 @@ public class IJFramebarberos extends javax.swing.JInternalFrame {
             
             ResultSetMetaData rsmt = rs.getMetaData();
             
-            for(int i = 1; i <= rsmt.getColumnCount();i++)
+            for(int i = 2; i <= rsmt.getColumnCount();i++)
             {
                 modelo.addColumn(rsmt.getColumnLabel(i));
             }
 
             while(rs.next())
             {
-                int ID = rs.getInt("ID");
+                
                 String NOMBRE = rs.getString("NOMBRE");
                 int EDAD = rs.getInt("EDAD");
-                modelo.addRow(new Object[]{ID,NOMBRE,EDAD});
+                modelo.addRow(new Object[]{NOMBRE,EDAD});
             }
             tblbarberos.setModel(modelo);
                     
