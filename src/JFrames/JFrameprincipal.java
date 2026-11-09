@@ -8,6 +8,7 @@ import IJFrames.IFrameactualizar;
 import IJFrames.IFrameagregar;
 import IJFrames.IFrameactualizar;
 import IJFrames.IFrameacualizarcliente;
+import IJFrames.IFramereportesfechas;
 import IJFrames.IFramesreportes;
 import IJFrames.IFramragregarbarbero;
 import IJFrames.IJFramebarberos;
@@ -98,6 +99,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
         mncbarberos = new javax.swing.JMenu();
         mreportes = new javax.swing.JMenuItem();
         mverbarberos = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuagregar = new javax.swing.JMenu();
         magregarclientes = new javax.swing.JMenuItem();
         magregarbarbero = new javax.swing.JMenuItem();
@@ -166,6 +168,10 @@ public class JFrameprincipal extends javax.swing.JFrame {
         mverbarberos.setText("Ver barberos");
         mverbarberos.addActionListener(this::mverbarberosActionPerformed);
         mncbarberos.add(mverbarberos);
+
+        jMenuItem1.setText("Ver por fecha");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
+        mncbarberos.add(jMenuItem1);
 
         jMenuBar1.add(mncbarberos);
 
@@ -259,6 +265,13 @@ public class JFrameprincipal extends javax.swing.JFrame {
         actualizarcliente.show();
     }//GEN-LAST:event_mactualizarclientesActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        IFramereportesfechas reportesfechas = new IFramereportesfechas();
+        DesktopPanel.add(reportesfechas);
+        reportesfechas.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -289,6 +302,7 @@ public class JFrameprincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblcuenta;
     private javax.swing.JLabel lbluser;
     private javax.swing.JMenuItem mactualiarbarbero;

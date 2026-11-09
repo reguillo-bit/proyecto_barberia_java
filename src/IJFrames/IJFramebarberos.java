@@ -27,6 +27,7 @@ public class IJFramebarberos extends javax.swing.JInternalFrame {
     public IJFramebarberos() {
         initComponents();
         conexion = new infoconexion();
+        this.setTitle("Reporte barberos");
         llenartablabarberos();
         
     }

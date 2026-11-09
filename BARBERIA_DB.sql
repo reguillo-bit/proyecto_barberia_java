@@ -28,12 +28,14 @@ NOMBRE VARCHAR(50),
 EDAD INT
 );
 insert into CLIENTES(ID_CLIENTE,NOMBRE,EDAD) values(1,'DON PICHON',67);
+insert into CLIENTES(ID_CLIENTE,NOMBRE,EDAD) values(2,'NARUTO',20);
 
 CREATE TABLE BARBERO(
 ID_BARBERO INT auto_increment primary key unique,
 NOMBRE VARCHAR(50),
 EDAD int
 );
+
 insert into BARBERO(NOMBRE,EDAD) VALUES('DON RAMON',67);
 insert into BARBERO(NOMBRE,EDAD) VALUES('DON  BARRIGA',65);
 insert into BARBERO(NOMBRE,EDAD) VALUES('GODINES ',40);
@@ -42,7 +44,7 @@ CREATE TABLE SERVICIO(
 ID_SERVICIO INT auto_increment primary key,
 TURNO INT ,
 PRECIO INT,
-FECHA DATE,
+FECHA DATE ,
 ID_USER INT,
 ID_CLIENTE INT,
 ID_BARBERO INT,
@@ -51,6 +53,7 @@ FOREIGN KEY(ID_CLIENTE) REFERENCES CLIENTES (ID_CLIENTE),
 FOREIGN KEY(ID_BARBERO) REFERENCES BARBERO (ID_BARBERO)
 );
 insert into SERVICIO(TURNO,PRECIO,FECHA,ID_USER,ID_CLIENTE,ID_BARBERO) VALUES(1,20000, curdate(),1,1,1);
+insert into SERVICIO(TURNO,PRECIO,FECHA,ID_USER,ID_CLIENTE,ID_BARBERO) VALUES(2,20000,'2026-09-09',1,2,1);
 
 CREATE TABLE PAGOS(
 ID_PAGO INT auto_increment PRIMARY KEY,
@@ -133,6 +136,16 @@ begin
 insert into PAGOS(PAGO,I_BARBERO,ID_SERVICIO) values(pago,id_barbero,id_servicio);
 end//
 
+create procedure clientes_por_fecha (FECHA DATE)
+select c.ID_CLIENTE AS ID,c.NOMBRE AS NOMBRE,s.TURNO AS TURNO,b.NOMBRE AS BARBERO ,s.FECHA AS FECHAS ,s.PRECIO as PRECIO from CLIENTES c 
+inner join SERVICIO s on c.ID_CLIENTE=s.ID_CLIENTE
+inner join BARBERO b on s.ID_BARBERO=b.ID_BARBERO WHERE S.FECHA = FECHA;
+//
+
+create view fechas as 
+select DISTINCT s.FECHA from SERVICIO s;
+//
+
 
 create procedure pago_barbero (id int) 
 begin
@@ -156,4 +169,3 @@ delimiter ;
 SHOW CREATE TRIGGER pagoss;
 
 
-select * from verclientes;
