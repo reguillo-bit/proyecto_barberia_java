@@ -1,0 +1,45 @@
+CAMBIOS SOBRE TU PROYECTO (la estructura y la logica se mantienen)
+===================================================================
+
+INFORMES NUEVOS  (menu Reportes; se agregan por codigo en JFrameprincipal.agregarinformes())
+  IFrameingresosperiodo.java      Ingresos por periodo (rango Desde/Hasta + total)      -> procedimiento ingresos_por_periodo
+  IFrameserviciosbarbero.java     Cantidad de servicios y valor generado por barbero    -> procedimiento servicios_por_barbero
+  IFrameclientesfrecuentes.java   Clientes con mas visitas en un periodo                -> procedimiento clientes_frecuentes
+  (estas 3 ventanas estan escritas en codigo, sin .form; se editan como codigo)
+
+PAGOS A BARBEROS  (menu Reportes > Pagos barberos)
+  IFramepagosbarberos.java  - ya funciona: combo con los barberos (verbarbero), tabla con el detalle de sus
+                              pagos (fecha, cliente, servicio, valor, pago) y "Total a pagar" debajo.
+                              La logica esta fuera del bloque generado: el diseño .form no se tocó.
+  SQL: procedimiento nuevo pagos_por_barbero(id). Tu pago_barbero(id) queda igual.
+  SQL: el servicio 2 de los datos de ejemplo no tenia pago (se creo antes del trigger): se agrego.
+  Los pagos se generan solos con tu trigger pagoss (40 % del valor del servicio).
+
+ARCHIVOS TUYOS CON CAMBIOS PEQUENOS
+  IFrameagregar.java          - guarda el nombre del servicio (antes se descartaba)
+                              - guarda el valor completo (antes guardaba el 60 % y el trigger sacaba el 40 % de eso)
+                              - el barbero se toma por su id real y no por la posicion del combo
+                              - si no se elige barbero avisa antes de crear el cliente
+  IFramesreportes.java        - agrega la columna SERVICIO
+  IFramereportesfechas.java   - agrega la columna SERVICIO
+  IFrameactualizar.java       - el clic toma el id real de la fila (ya no "fila + 1")
+  IFrameacualizarcliente.java - el clic toma el id real de la fila
+  IFrameeliminarclientes.java - id real, confirmacion, avisa si no hay seleccion, refresca CUENTA
+  IFrameeliminarbarberos.java - estaba vacio: se completo igual que eliminar clientes
+  JFrameprincipal.java        - llama a agregarinformes() (4 items nuevos en Reportes: 3 informes + Pagos barberos)
+
+BARBERIA_DB.sql  (ejecutarlo de nuevo: recrea la base)
+  - SERVICIO.TIPO_SERVICIO (columna nueva con el nombre del servicio); vertabla, nombrestabla,
+    clientes_por_fecha y agregarservicio la incluyen
+  - procedimientos que tu Java llamaba y no existian: acualizarcliente, eliminarcliente, eliminarbarbero
+  - procedimientos de informes: ingresos_por_periodo, servicios_por_barbero, clientes_frecuentes
+  - maxid / maxidservices usan MAX en lugar de COUNT (con COUNT fallan al eliminar registros)
+  - clientes_por_fecha: alias "s" en minuscula (en Linux/Mac "S" daba error; en Windows funcionaba igual)
+  - datos de ejemplo al final para probar los informes (borralos si no los quieres)
+
+REGLAS AL ELIMINAR
+  - Cliente: se elimina junto con sus servicios y pagos (pide confirmacion).
+  - Barbero: no se elimina si tiene servicios registrados (conserva el historial).
+
+NOTA: "clientes frecuentes" agrupa por nombre y edad, porque cada servicio que registras
+crea un registro de cliente nuevo (asi funciona tu ventana Agregar).
